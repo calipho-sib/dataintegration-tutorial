@@ -1,0 +1,12 @@
+# Docker service status
+service docker status
+
+# Start daemon with exposed TCP
+# add a file /etc/docker/daemon.json
+# {
+#    	"debug": true,
+#  	    "hosts": ["tcp://127.0.0.1:2375"]
+# }
+
+service docker restart
+
