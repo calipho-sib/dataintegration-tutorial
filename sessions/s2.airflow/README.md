@@ -11,14 +11,13 @@ Airflow has multiple different components.
 Scheduler is a core of the airflow engine, which handles the scheduling of the processes.
 
 2. Web server
+
 Web server hosts the admin interface of airflow, which has a comprehensive control panel for DAGs.
 
 3. Database
+
 Airflow maintains a database to store operational data. It is possible to configure different databases, such as sqlite, postgres or any other.
 
-```
-Give an example
-```
 
 #### Defining airflow workflows as DAGs
 
