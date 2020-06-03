@@ -1,11 +1,13 @@
-# Cloud Native Scalable Data Integration Pipeline
+# Building Scalable Data Integration Pipelines Using Container Technology
 
-In order to accommodate large scale data, scalable data integration pipelines need to be developed. The aim of this tutorial is to present the steps to build a scalable data integration pipeline using container technology and state-of-the-art workflow management tools.
+In order to accommodate big volumes of data, scalable data integration pipelines need to be developed. The aim of this tutorial is to present the steps to build a scalable data integration pipeline using container technology and state-of-the-art workflow management tools.
+This tutorial walks you through on how to use docker and apache airflow to build a simple data integration pipeline.
 
-## Container Technology with Docker
+This tutorial is organized in three sessions;
 
-
-### Docker Basics
+1. Introduction  to Containers, Docker and Docker Compose
+2. Intrdocution to Apache Airflow
+3. Data Integration with Docker and Airflow
 
 
 #### Installation
@@ -31,37 +33,7 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Workflow Management with Apache Airflow
-
-Explain how to run the automated tests for this system
-
-### Airflow Basics
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### Airflow Installation 
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### Airflow Basics
-
-Add additional notes about how to deploy this on a live system
-
-### First example with Airflow
 
 ### Example with Docker and Docker Swarm Operator 
 
 
-## Data Integration Pipeline Patterns
-
-### Synchronous I/O based pipelines  
-
-### Producer consumer based pipelines
