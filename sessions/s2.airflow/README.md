@@ -89,4 +89,6 @@ You can see if the airflow related processes are properly started.
 
 Once airflow started properly, you can go to the airflow web interface, through which you can manage airflow workflows.
 
-### First example with Airflow
+### Simple DAG example
+
+
