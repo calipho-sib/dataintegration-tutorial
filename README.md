@@ -6,34 +6,7 @@ This tutorial walks you through on how to use docker and apache airflow to build
 This tutorial is organized in three sessions;
 
 1. Introduction  to Containers, Docker and Docker Compose
-2. Intrdocution to Apache Airflow
+2. Introduction to Apache Airflow
 3. Data Integration with Docker and Airflow
 
-
-#### Installation
-```
-Give examples
-```
-
-#### Running a docker container
-
-### Container Orchestration with Docker Swarm
-
-#### Why Orchestration
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-
-### Example with Docker and Docker Swarm Operator 
-
-
+README file in different directories under **/sessions** describes how to follow each session. Along with the README files other resources/files are also included in those directories.
