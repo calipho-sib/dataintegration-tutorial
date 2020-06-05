@@ -1,5 +1,3 @@
-npteam@ip-172-31-17-235:/work/dataintegration-tutorial/sessions/s2.airflow(master)$ vim dags/docker-example.py
-
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime, timedelta
