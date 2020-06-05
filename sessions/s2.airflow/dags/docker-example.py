@@ -1,3 +1,5 @@
+npteam@ip-172-31-17-235:/work/dataintegration-tutorial/sessions/s2.airflow(master)$ vim dags/docker-example.py
+
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime, timedelta
@@ -22,13 +24,14 @@ with DAG('docker_dag', default_args=default_args, schedule_interval=None, catchu
 
 
     t2 = DockerOperator(
-            task_id='docker_command',
-            image='alpine',
-            api_version='auto',
-            auto_remove=True,
-            command="touch `date '+%Y-%m-%d:%H-%M-%S'`",
-            docker_url="tcp://192.168.1.107:2375",
-            network_mode="bridge"
+        task_id='docker_command',
+        image='sibdays.python',
+        api_version='auto',
+        auto_remove=True,
+        command="python simple.py",
+        docker_url="tcp://172.31.17.235:2375",
+        network_mode="bridge",
+        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/logs:/log']
     )
 
     t3 = BashOperator(

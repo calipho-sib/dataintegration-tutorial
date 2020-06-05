@@ -7,3 +7,7 @@ while(i > 0):
     time.sleep(1);
 
 print("I am done, Bye");
+
+f = open("/log/1.log", "a")
+f.write("Now the file has more content!")
+f.close()
