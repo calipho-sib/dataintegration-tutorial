@@ -79,7 +79,7 @@ Once the docker file is created it had to be build and tagged. To build the imag
 For example, to build the python component in this tutorial, cd to directory /components/python
 
 ```
-docker build -t sibdays.tutorial.python .
+docker build -t sibdays.python.simple .
 ```
 
 If successful, it should build the docker image and tag it as *sibdays.tutorial.python*. It is possible to list all the docker images identified by the docker service.
@@ -93,18 +93,22 @@ docker images
 
 Docker container can be run in multiple ways depending on the use case.
 
-With an entrypoint:
-In the docker file, it is possible to add a entrypoint for the image, which is the main program to be run when the image is executed. In that case;
+With an CMD:
+In the docker file, it is possible to add a CMD command for the image, which becomes the command executed;
 
 ```
-docker run <image:version>
+docker run sibdays.python.simple
 ```
 
-Another use case is to run a specific program in the image, which can be done as follows;
+With an entry point:
+If a entry point is mentioned as follows, it would become the default command to be executed as well.
+
 ```
-docker exec <image:version> /command-to-run
+ENTRYPOINT ["python" "simple.py"]
 ```
 
+
+```
 Example:
 We can build a docker image which encompasses the python program in /resources/python/extract.py using the docker file in /resources/python/.
 ```
@@ -146,7 +150,8 @@ docker pull hello-world
 
 ## Docker compose
 
-Docker compose is a high level composition system on docker, where multiple containers can be composed and execute as a single setup.
+Docker compose is a high level composition system on docker, where multiple containers can be composed and execute as a single setup. A simple example of a docker compose can be found in the docker docs.
+
 
 ## Docker swarm
 

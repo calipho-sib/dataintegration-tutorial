@@ -70,7 +70,21 @@ Once the airflow configuration is set, scheduler and web server has to be starte
 
 ### Airflow with Docker Compose
 
-A rather easy approach is to use docker compose to start these components all together. We use the docker compose file *airflow-docker-compose.yml* provided in this d
+A rather easy approach is to use docker compose to start these components all together. A docker file for airflow can be found in an open source contribution at https://github.com/puckel/docker-airflow.
+We use a derivative of this docker file for our purpose. Note that the airflow.cfg config file is at *conf* folder. Now to build the airflow docker image;
+
+```
+docker build -t sibdays.airflow .
+```
+
+If the building process goes without any errors, you can find it in the image listing. 
+
+```
+docker images
+```
+
+
+Once the docker image for airflow is built, we use the docker compose file *airflow-docker-compose.yml* provided in this directory to start airflow 
 
 
 ```

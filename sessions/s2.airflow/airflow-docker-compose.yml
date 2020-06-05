@@ -1,42 +1,30 @@
-version: '2.1'
+version: '3.7'
 services:
-  redis:
-    image: 'redis:5.0.5'
-    #network_mode: bridge
-    # command: redis-server --requirepass redispass
-
   postgres:
     image: postgres:9.6
-    #network_mode: bridge
-    #        - host
     environment:
       - POSTGRES_USER=airflow
       - POSTGRES_PASSWORD=airflow
       - POSTGRES_DB=airflow
-    # Uncomment these lines to persist data on the local filesystem.
-    #     - PGDATA=/var/lib/postgresql/data/pgdata
-    # volumes:
-    #     - ./pgdata:/var/lib/postgresql/data/pgdata
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
 
   webserver:
-    image: np.airflow:latest
-    #network_mode: bridge
-    #        - host
+    image: sibdays.airflow:latest
     restart: always
     depends_on:
       - postgres
-      - redis
     environment:
       - LOAD_EX=n
-      - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
-      - EXECUTOR=Local
-      # - POSTGRES_USER=airflow
-      # - POSTGRES_PASSWORD=airflow
-      # - POSTGRES_DB=airflow
-      # - REDIS_PASSWORD=redispass
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
     volumes:
       - ./dags:/usr/local/airflow/dags
-      # Uncomment to include custom plugins
       # - ./plugins:/usr/local/airflow/plugins
     ports:
       - "8080:8080"
@@ -46,27 +34,3 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
-
-  scheduler:
-    image: np.airflow:latest
-    #network_mode: bridge
-    #        - host
-    restart: always
-    depends_on:
-      - webserver
-    volumes:
-      - ./dags:/usr/local/airflow/dags
-      - ./logs:/usr/local/airflow/logs
-      # Uncomment to include custom plugins
-      # - ./plugins:/usr/local/airflow/plugins
-    environment:
-      - LOAD_EX=n
-      - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
-      - EXECUTOR=Local
-      - DOCKER_HOST=172.31.17.235:2375
-
-      # - POSTGRES_USER=airflow
-      # - POSTGRES_PASSWORD=airflow
-      # - POSTGRES_DB=airflow
-      # - REDIS_PASSWORD=redispass
-    command: scheduler

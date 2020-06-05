@@ -14,20 +14,28 @@ default_args = {
     'retry_delay'           : timedelta(minutes=5)
 }
 
-with DAG('worflow1', default_args=default_args, schedule_interval=None, catchup=False) as dag:
+with DAG('docker_dag', default_args=default_args, schedule_interval=None, catchup=False) as dag:
     t1 = BashOperator(
         task_id='print_current_date',
         bash_command='date'
     )
 
-    t2 = BashOperator(
-        task_id='sleep_10',
-        bash_command='sleep 10'
+
+    t2 = DockerOperator(
+            task_id='docker_command',
+            image='alpine',
+            api_version='auto',
+            auto_remove=True,
+            command="touch `date '+%Y-%m-%d:%H-%M-%S'`",
+            docker_url="tcp://192.168.1.107:2375",
+            network_mode="bridge"
     )
 
     t3 = BashOperator(
-        task_id='echo_bye',
-        bash_command='echo \'I am Done BYE\''
+        task_id='t2',
+        bash_command='date'
     )
+
+
 
     t1  >> t2 >> t3
