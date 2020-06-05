@@ -101,8 +101,18 @@ You can see if the airflow related processes are properly started.
 
 #### Airflow admin interface
 
-Once airflow started properly, you can go to the airflow web interface, through which you can manage airflow workflows.
+Once airflow started properly, you can go to the airflow web interface, through which you can manage airflow workflows. Airflow admin is accesible via localhost:8080.
+There you can see the dags, as we have mounted our *dags* folder into airflow. You should see dags listed, such as dag1 and dag2.
 
-### Simple DAG example
+Though this interface you can start executing these dags. 
+
+### DAG1
+
+DAG 1 is a simple example with three tasks with bash operator. These tasks runs in t1, t2 and t3 order.
+
+### DAG2
+
+DAG 2 shows a simple example with parallel tasks. There are four tasks and tasks t2 and t3 runs in parallel. Check the dag2.py for the syntax airflow use to denote parallel tasks. There are more advanced progammatical ways to define DAGs as well.
+For more info: https://airflow.apache.org/docs/stable/concepts.html
 
 

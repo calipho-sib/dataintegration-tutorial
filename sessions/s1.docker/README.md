@@ -107,10 +107,9 @@ If a entry point is mentioned as follows, it would become the default command to
 ENTRYPOINT ["python" "simple.py"]
 ```
 
-
-```
 Example:
 We can build a docker image which encompasses the python program in /resources/python/extract.py using the docker file in /resources/python/.
+
 ```
 docker build -t sibdays.tutorial.python .
 docker run sibdays.tutorial.python
@@ -132,7 +131,8 @@ One way to start the docker service in this mode is to create a file called /etc
 
 Then restart the docker service:
 ```
-docker service restart
+sudo systemctl daemon-reload
+sudo service docker restart
 ```
 
 #### Docker registry
@@ -140,18 +140,23 @@ docker service restart
 Docker registry is a registry which maintains docker images. Docker hub is a centrally maintained registry of docker images. This is the default registry, where docker daemon looks for images.
 For example, it is possible to pull an image called *hello-world* from the hub.
 
-##### Start docker registry
-
-Docker registry is an inbuilt image, which is installed by default. In order to setup a local docker registry
-
 ```
 docker pull hello-world
 ``` 
+In a distributed deployment with multiple machines, it would require to deploy a registry where all the images are published. Since in this workshop we deploy our workflows on a single docker host, we do not need to have a registry.
 
 ## Docker compose
 
 Docker compose is a high level composition system on docker, where multiple containers can be composed and execute as a single setup. A simple example of a docker compose can be found in the docker docs.
 
+### Install docker-compose
+
+It can simply be installed by downloading the release with curl.
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+```
 
 ## Docker swarm
 
