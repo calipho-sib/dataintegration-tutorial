@@ -1,7 +1,7 @@
 ### Docker Basics
 
 
-#### Docker installtion
+#### Docker installation
 A comprehensive resource on docker is the official documentation: https://docs.docker.com/
 Installation: https://docs.docker.com/get-docker/
 
