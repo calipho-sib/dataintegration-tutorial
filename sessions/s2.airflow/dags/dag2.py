@@ -14,7 +14,7 @@ default_args = {
     'retry_delay'           : timedelta(minutes=5)
 }
 
-with DAG('worflow1', default_args=default_args, schedule_interval=None, catchup=False) as dag:
+with DAG('dag2', default_args=default_args, schedule_interval=None, catchup=False) as dag:
     t1 = BashOperator(
         task_id='print_current_date',
         bash_command='date'
