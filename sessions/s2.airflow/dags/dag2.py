@@ -35,4 +35,4 @@ with DAG('worflow1', default_args=default_args, schedule_interval=None, catchup=
         bash_command='echo \'I am Done BYE\''
     )
 
-    t1  >> [t2,t3] >> t3
+    t1  >> [t2,t3] >> t4
