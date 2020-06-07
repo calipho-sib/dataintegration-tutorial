@@ -5,9 +5,9 @@ from airflow.operators.docker_operator import DockerOperator
 
 default_args = {
     'owner'                 : 'airflow',
-    'description'           : 'Use of the DockerOperator',
+    'description'           : 'Synchronous pipeline DAG',
     'depend_on_past'        : False,
-    'start_date'            : datetime(2018, 1, 3),
+    'start_date'            : datetime(2020, 6, 6),
     'email_on_failure'      : False,
     'email_on_retry'        : False,
     'retries'               : 1,
@@ -21,52 +21,18 @@ with DAG('docker_dag', default_args=default_args, schedule_interval=None, catchu
     )
 
     t2 = DockerOperator(
-            task_id='docker_command',
-            image='alpine',
-            api_version='auto',
-            auto_remove=True,
-            command="touch `date '+%Y-%m-%d:%H-%M-%S'`",
-            docker_conn_id="sam_reg",
-            docker_url="tcp://192.168.1.107:2375",
-            network_mode="bridge"
+        task_id='extract-REST',
+        image='sibdays.python',
+        api_version='auto',
+        auto_remove=True,
+        command="python extract.py 1 10",
+        docker_url="tcp://172.31.17.235:2375",
+        network_mode="bridge"
     )
 
-    t3 = DockerOperator(
-            task_id='docker_command',
-            image='alpine',
-            api_version='auto',
-            auto_remove=True,
-            command="touch `date '+%Y-%m-%d:%H-%M-%S'`",
-            docker_conn_id="sam_reg",
-            docker_url="tcp://192.168.1.107:2375",
-            network_mode="bridge"
-    )
-
-    t4 = DockerOperator(
-            task_id='docker_command',
-            image='alpine',
-            api_version='auto',
-            auto_remove=True,
-            command="touch `date '+%Y-%m-%d:%H-%M-%S'`",
-            docker_conn_id="sam_reg",
-            docker_url="tcp://192.168.1.107:2375",
-            network_mode="bridge"
-    )
-
-    t5 = DockerOperator(
-            task_id='docker_command',
-            image='alpine',
-            api_version='auto',
-            auto_remove=True,
-            command="touch `date '+%Y-%m-%d:%H-%M-%S'`",
-            docker_conn_id="sam_reg",
-            docker_url="tcp://192.168.1.107:2375",
-            network_mode="bridge"
-    )
-
-    t6 = BashOperator(
+    t3 = BashOperator(
         task_id='print_hello',
-        bash_command='echo "hello world"'
+        bash_command='echo "Done extracting and calling the transform & load steps"'
     )
 
-    t1  >> [t2,t3], [t4, t5] >> t6
+    t1  >> t2 >> t3

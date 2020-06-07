@@ -65,11 +65,10 @@ Docker file documentation can be found here: https://docs.docker.com/engine/refe
 
 ```
 FROM python:alpine3.7
+RUN pip install requests
 COPY . /app
 WORKDIR /app
-RUN pip install -r requirements.txt
-EXPOSE 5000
-CMD python ./index.py
+RUN mkdir  /data
 ```
 
 
@@ -79,7 +78,7 @@ Once the docker file is created it had to be build and tagged. To build the imag
 For example, to build the python component in this tutorial, cd to directory /components/python
 
 ```
-docker build -t sibdays.python.simple .
+docker build -t sibdays.python .
 ```
 
 If successful, it should build the docker image and tag it as *sibdays.tutorial.python*. It is possible to list all the docker images identified by the docker service.
@@ -88,16 +87,41 @@ If successful, it should build the docker image and tag it as *sibdays.tutorial.
 docker images
 ``` 
 
+We can build a docker image which encompasses the python programs in /resources/python/ using the docker file in /resources/python/.
+
+```
+docker build -t sibdays.python .
+docker run sibdays.python
+``` 
+
+To delete an image;
+```
+docker rmi <imageid>
+```
 
 #### Running the docker container
 
 Docker container can be run in multiple ways depending on the use case.
 
-With an CMD:
+Via shell (For most of the images):
+You can invoke a command in the image via */bin/sh*. In a way it is similar to logging into the shell in the image and running a command there.
+
+We can run a *ls* command  as follows;
+
+```
+docker run sibdays.python ls
+```
+
+We can run a python script in the command as follows;
+```
+docker run sibdays.python /bin/sh -c 'python simple.py'
+```
+
+With CMD:
 In the docker file, it is possible to add a CMD command for the image, which becomes the command executed;
 
 ```
-docker run sibdays.python.simple
+docker run sibdays.python
 ```
 
 With an entry point:
@@ -107,13 +131,19 @@ If a entry point is mentioned as follows, it would become the default command to
 ENTRYPOINT ["python" "simple.py"]
 ```
 
-Example:
-We can build a docker image which encompasses the python program in /resources/python/extract.py using the docker file in /resources/python/.
+To check the running docker containers;
 
 ```
-docker build -t sibdays.tutorial.python .
-docker run sibdays.tutorial.python
-``` 
+docker ps
+```
+This will log the existing containers, which can be stopped/removed by;
+
+```
+docker stop <containerid>
+```
+
+There can be various use cases with docker run, for example passing paramters, environment variables and exposing ports to the docker host. For more details refer to the documentations:
+https://docs.docker.com/engine/reference/run/
 
 ###### Unix socket and TCP mode
 Docker daemon can be started in two main modes. It can either expose a unix socket usually created in ***/var/run/docker.sock***. All the communication with the docker daemon is done via this.
@@ -157,6 +187,8 @@ It can simply be installed by downloading the release with curl.
 sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 ```
+
+We will use docker-compose in the other sessions.
 
 ## Docker swarm
 

@@ -1,0 +1,53 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  mongo:
+    image: 'mongo'
+    environment:
+      - MONGO_INITDB_DATABASE=ensembl-transformed
+      - MONGO_INITDB_ROOT_USERNAME=testuser
+      - MONGO_INITDB_ROOT_PASSWORD=testpassword
+    volumes:
+      - ./mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - "27017:27017"
+
+  loader:
+    image: 'sibdays.node'
+    ports:
+      - "3000:3000"
+    command: ./start-api
+
+  webserver:
+    image: sibdays.airflow:latest
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - LOAD_EX=n
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./logs:/usr/local/airflow/logs
+    ports:
+      - "8080:8080"
+    command: webserver
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 3

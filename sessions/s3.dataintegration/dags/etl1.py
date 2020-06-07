@@ -7,7 +7,7 @@ default_args = {
     'owner'                 : 'airflow',
     'description'           : 'Use of the DockerOperator',
     'depend_on_past'        : False,
-    'start_date'            : datetime(2018, 1, 3),
+    'start_date'            : datetime(2020, 6, 6),
     'email_on_failure'      : False,
     'email_on_retry'        : False,
     'retries'               : 1,
@@ -22,21 +22,32 @@ with DAG('etl1', default_args=default_args, schedule_interval=None, catchup=Fals
 
 
     t2 = DockerOperator(
-        task_id='docker_command',
+        task_id='extract',
         image='sibdays.python',
         api_version='auto',
         auto_remove=True,
-        command="python extract.py 1 10",
+        command="python extract.py 1 20",
         docker_url="tcp://172.31.17.235:2375",
         network_mode="bridge",
         volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
     )
 
-    t3 = BashOperator(
+    t3 = DockerOperator(
+        task_id='transform-load',
+        image='sibdays.node',
+        api_version='auto',
+        auto_remove=True,
+        command="node transform-load.js 1 20",
+        docker_url="tcp://172.31.17.235:2375",
+        network_mode="bridge",
+        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
+    )
+
+    t4 = BashOperator(
         task_id='t2',
         bash_command='date'
     )
 
 
 
-    t1  >> t2 >> t3
+    t1  >> t2 >> t3 >> t4

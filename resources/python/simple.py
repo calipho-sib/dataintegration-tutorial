@@ -1,13 +1,10 @@
 import time;
 
-i = 20;
+i = 50;
 while(i > 0):
     i = i - 1;
-    print("Doing some work and sleeping for 1 second");
+    print("Doing some work and sleeping for 1 second\n");
     time.sleep(1);
 
-print("I am done, Bye");
+print("I am done, Bye\n");
 
-f = open("/log/1.log", "a")
-f.write("Now the file has more content!")
-f.close()

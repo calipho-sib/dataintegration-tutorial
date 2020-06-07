@@ -71,7 +71,8 @@ Once the airflow configuration is set, scheduler and web server has to be starte
 ### Airflow with Docker Compose
 
 A rather easy approach is to use docker compose to start these components all together. A docker file for airflow can be found in an open source contribution at https://github.com/puckel/docker-airflow.
-We use a derivative of this docker file for our purpose. Note that the airflow.cfg config file is at *conf* folder. Now to build the airflow docker image;
+We use a derivative of this docker file for our purpose. Note that the airflow.cfg config file is at *config* folder and in *scripts* folder there is a shell script, which acts as an entrypoint command for airflow images.
+Now to build the airflow docker image;
 
 ```
 docker build -t sibdays.airflow .
@@ -114,5 +115,6 @@ DAG 1 is a simple example with three tasks with bash operator. These tasks runs 
 
 DAG 2 shows a simple example with parallel tasks. There are four tasks and tasks t2 and t3 runs in parallel. Check the dag2.py for the syntax airflow use to denote parallel tasks. There are more advanced progammatical ways to define DAGs as well.
 For more info: https://airflow.apache.org/docs/stable/concepts.html
+
 
 

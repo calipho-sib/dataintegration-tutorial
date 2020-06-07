@@ -1,4 +1,4 @@
-import requests, sys, json
+import requests, sys, json, os
 
 '''Ensemble REST API'''
 server = "https://rest.ensembl.org"
@@ -40,7 +40,16 @@ for id in ids:
         "ensg" : id["ensg"],
         "data" : pvalues
     })
+    print(json_data)
 
-output_file = 'ensembl'+str(start)+"-"+str(end)+".json"
-with open(output_file, 'w') as f:
-    json.dump(json_data, f, ensure_ascii=False, indent=4)
+mode = os.environ.get('MODE')
+if mode is None or mode == 'FILE':
+    output_file = '/data/ensembl'+str(start)+"-"+str(end)+".json"
+    with open(output_file, 'w') as f:
+        json.dump(json_data, f, ensure_ascii=False, indent=4)
+
+else:
+    response = requests.post("http://localhost:3000/transform", json = {"ensg":"a", "snp":"rs", "data":"MYDATA"})
+    if not response.ok:
+        response.raise_for_status()
+        sys.exit()
