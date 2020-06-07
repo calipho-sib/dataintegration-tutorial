@@ -11,8 +11,7 @@ if(process.env.MODE === 'FILE') {
 
     // Calls to process the file content
     console.log("processing ensembl data\n");
-    processFile(ensembl_data);
-
+    processFile(ensembl_data);	
 } else if(process.env.MODE === 'API') {
 
     app.use(bodyParser.urlencoded({
@@ -20,18 +19,21 @@ if(process.env.MODE === 'FILE') {
     }));
     app.use(bodyParser.json());
 
-    app.post('/transform', function (req, res) {
-            const ensembl_data = req.body;
-            console.log(req.body);
-            if(ensembl_data) {
-                console.log( "Ensembl data received and loading in to the DB");
+    var router = express.Router();
+    router.post('/transform', function(req, res) {
+    	const ensembl_data = req.body;
+        console.log(req.body);
+        if(ensembl_data) {
+        	console.log( "Ensembl data received and loading in to the DB");
+                processFile(ensembl_data);
                 res.send("Done");
-            } else {
+        } else {
                 console.error("Empty data, something is wrong");
                 res.send("Empty data");
-            }
-    })
+        }   
+    });
 
+    app.use('/', router);	
     var server = app.listen(3000, function () {
         var host = server.address().address;
         var port = server.address().port;
@@ -43,11 +45,16 @@ if(process.env.MODE === 'FILE') {
 function processFile(content) {
 
     var MongoClient = require('mongodb').MongoClient;
-    var url = 'mongodb://testuser:testpassword@192.168.1.108:27017/ensembl-transformed';
+    var url = 'mongodb://testuser:testpassword@172.31.29.142:27017/ensembl-transformed';
     console.log("Inserting " + content);
     MongoClient.connect(url, function(err, client) {
 
         var ensembl_collection = client.db('ensembl-transformed').collection('ensembl');
-        ensembl_collection.insert(content);
-    });
+        ensembl_collection.insert(content, function(err, res) {
+    		if (err) throw err;
+    		console.log("Data inserted");
+    		client.close();
+    	});
+    console.log("Loading done!");
+   });
 }

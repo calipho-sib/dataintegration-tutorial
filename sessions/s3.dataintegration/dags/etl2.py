@@ -27,10 +27,10 @@ with DAG('etl2', default_args=default_args, schedule_interval=None, catchup=Fals
         api_version='auto',
         auto_remove=True,
         command="python extract.py 1 10",
-        docker_url="tcp://172.31.17.235:2375",
+        docker_url="tcp://172.31.29.142:2375",
         network_mode="bridge",
         environment={"MODE": "FILE"},
-        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
+        volumes=['/work/sibdays/dataintegration-tutorial/sessions/s3.dataintegration/data:/data']
     )
 
     t3 = DockerOperator(
@@ -39,10 +39,10 @@ with DAG('etl2', default_args=default_args, schedule_interval=None, catchup=Fals
         api_version='auto',
         auto_remove=True,
         command="python extract.py 11 20",
-        docker_url="tcp://172.31.17.235:2375",
+        docker_url="tcp://172.31.29.142:2375",            
         network_mode="bridge",
         environment={"MODE": "FILE"},
-        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
+        volumes=['/work/sibdays/dataintegration-tutorial/sessions/s3.dataintegration/data:/data']
     )
 
     t4 = DockerOperator(
@@ -50,11 +50,11 @@ with DAG('etl2', default_args=default_args, schedule_interval=None, catchup=Fals
         image='sibdays.node',
         api_version='auto',
         auto_remove=True,
-        command="node transform-load.js 1 10",
-        docker_url="tcp://172.31.17.235:2375",
+        command="node transform-load.js /data/ensembl1-10.json",
+        docker_url="tcp://172.31.29.142:2375",
         network_mode="bridge",
         environment={"MODE": "FILE"},
-        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
+        volumes=['/work/sibdays/dataintegration-tutorial/sessions/s3.dataintegration/data:/data']
     )
 
     t5 = DockerOperator(
@@ -62,11 +62,11 @@ with DAG('etl2', default_args=default_args, schedule_interval=None, catchup=Fals
         image='sibdays.node',
         api_version='auto',
         auto_remove=True,
-        command="node transform-load.js 11 20",
-        docker_url="tcp://172.31.17.235:2375",
+        command="node transform-load.js /data/ensembl11-20.json",
+        docker_url="tcp://172.31.29.142:2375",
         network_mode="bridge",
         environment={"MODE": "FILE"},
-        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
+        volumes=['/work/sibdays/dataintegration-tutorial/sessions/s3.dataintegration/data:/data']
     )
 
     t6 = BashOperator(

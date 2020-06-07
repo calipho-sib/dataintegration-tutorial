@@ -49,7 +49,8 @@ if mode is None or mode == 'FILE':
         json.dump(json_data, f, ensure_ascii=False, indent=4)
 
 else:
-    response = requests.post("http://localhost:3000/transform", json = {"ensg":"a", "snp":"rs", "data":"MYDATA"})
+    response = requests.post("http://172.31.29.142:3000/transform", json = json_data)
     if not response.ok:
         response.raise_for_status()
         sys.exit()
+    print("All seem to be ok")
