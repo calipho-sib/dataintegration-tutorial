@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+const bodyParser = require("body-parser");
 
 const ensembl_file = process.argv[2];
 
@@ -13,6 +14,12 @@ if(process.env.MODE === 'FILE') {
     processFile(ensembl_data);
 
 } else if(process.env.MODE === 'API') {
+
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(bodyParser.json());
+
     app.post('/transform', function (req, res) {
             const ensembl_data = req.body;
             console.log(req.body);
@@ -26,8 +33,8 @@ if(process.env.MODE === 'FILE') {
     })
 
     var server = app.listen(3000, function () {
-        var host = server.address().address
-        var port = server.address().port
+        var host = server.address().address;
+        var port = server.address().port;
         console.log("Transformer is at http://%s:%s", host, port)
     })
 }
