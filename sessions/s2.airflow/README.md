@@ -48,6 +48,8 @@ with DAG('docker_dag', default_args=default_args, schedule_interval=None, catchu
 
 ```
 
+For more information on docker operators can be found in the documentation; https://airflow.apache.org/docs/stable/_api/airflow/operators/index.html
+
 #### Schedule
 *schedule_interval* is the parameter, which controls the execution schedule of a DAG. According to the schedule_interval, DAG is scheduled for execution automatically. If the *schedule_interval* is null, DAG has to be started manually via the admin interface or CLI.
 
@@ -106,6 +108,21 @@ Once airflow started properly, you can go to the airflow web interface, through 
 There you can see the dags, as we have mounted our *dags* folder into airflow. You should see dags listed, such as dag1 and dag2.
 
 Though this interface you can start executing these dags. 
+
+
+#### DAG status & logs
+
+Airflow admin interface is quite comprehensive so that it is easy to follow all the details about DAGs. In order to see the progress of a DAG, you can click on a DAG in the dag listing and see its different views.
+For example graph and tree view shows in real-time how the DAG is being processed. Also you can click on a given task and see the logs of a running task.
+
+Also it is important to get the logs of running DAGs in the docker host in a persistant manner. In order to do this, we mount a volume to the airflow docker container as follows in the docker-compose file;
+
+```
+volumes:
+      - ./logs:/usr/local/airflow/logs
+```
+
+You should create a writable *log* folder in the *s2.airflow* folder, and the above directive will mount this folder to the airflow container's log folder. 
 
 ### DAG1
 
