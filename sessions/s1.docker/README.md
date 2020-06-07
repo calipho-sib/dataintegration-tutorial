@@ -75,7 +75,7 @@ RUN mkdir  /data
 #### Building a docker container
 
 Once the docker file is created it had to be build and tagged. To build the image run the following command in the directory with the docker file.
-For example, to build the python component in this tutorial, cd to directory /components/python
+For example, to build the python component in this tutorial, cd to directory /resources/python
 
 ```
 docker build -t sibdays.python .
