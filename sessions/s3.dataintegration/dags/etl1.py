@@ -29,6 +29,7 @@ with DAG('etl1', default_args=default_args, schedule_interval=None, catchup=Fals
         command="python extract.py 1 20",
         docker_url="tcp://172.31.17.235:2375",
         network_mode="bridge",
+        environment={"MODE": "FILE"},
         volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
     )
 
@@ -40,6 +41,7 @@ with DAG('etl1', default_args=default_args, schedule_interval=None, catchup=Fals
         command="node transform-load.js 1 20",
         docker_url="tcp://172.31.17.235:2375",
         network_mode="bridge",
+        environment={"MODE": "FILE"},
         volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
     )
 
