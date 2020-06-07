@@ -16,9 +16,25 @@ Change directory to *resources/node* and do;
 docker build -t sibdays.node .
 ```
 
+**Note that in the node program, mongo db URL has to be changed according to your IP.**
+**Note that in the python program, Loader API URL has to be changed according to your IP.**
+
 Check if the images are created properly with;
 ```
 docker images
+```
+
+### Docker operator tasks
+
+Docker operators access the docker host API/service via a TCP connection. Therefore, inorder to properly set the TCP URL, replace the IP of the docker host with the correct one.
+
+```
+docker_url="tcp://*.*.*.*:2375",
+``` 
+
+Also make sure to modify the path of the volume, as per your repository direction.
+```
+volumes=['/work/dataintegration-tutorial/sessions/s3.dataintegration/data:/data']
 ```
 
 ### Asynchronous I/O based pipelines  
@@ -48,23 +64,17 @@ In order to support the local writing to the docker host, we have to mount a vol
 ```
 volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
 ```
-Create a folder called *data* in the *s3.dataintegration* folder. This mounts a volume on docker host to the docker container created by the docker operator. 
+Create folders called *data* and *log* in the *s3.dataintegration* folder. This mounts a volume on docker host to the docker container created by the docker operator. 
 Go to the airflow admin and start the ETL1 DAG manually. Monitor its status via graph view and logs. If no errors and if the dag executed properly, there will be an output file in *data* folder.
 
 This output file will be read by the node process and written to the mongodb database.
 
 #### Check mongo collections
 
-In order to check if the data is inserted properly to the database, we can log into the container running the docker;
+In order to check if the data is inserted properly to the database, we can log into mongo db as follows;
 
 ```
-docker exec mongo bash
-```
-
-Then on the bash, run;
-
-```
-mongo --username testuser --password testpassword --authenticationDatabase ensembl-transformed
+mongo --username testuser --password testpassword --authenticationDatabase ensembl-transformed --host localhost --port 27017
 ```
 
 To check the data;

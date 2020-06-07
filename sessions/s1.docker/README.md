@@ -159,11 +159,21 @@ One way to start the docker service in this mode is to create a file called /etc
 }
 ```
 
+create a new file /etc/systemd/system/docker.service.d/docker.conf with the following contents, to remove the -H argument that is used when starting the daemon by default.
+```
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd
+```
+
 Then restart the docker service:
 ```
 sudo systemctl daemon-reload
 sudo service docker restart
 ```
+
+More infor on docker daemon and docker service startup:
+https://docs.docker.com/engine/reference/commandline/dockerd/
 
 #### Docker registry
 
@@ -186,6 +196,12 @@ It can simply be installed by downloading the release with curl.
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
+```
+
+Also make sure to set the execution permission;
+
+```
+sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 We will use docker-compose in the other sessions.
