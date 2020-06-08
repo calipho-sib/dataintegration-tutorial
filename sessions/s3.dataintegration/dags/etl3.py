@@ -14,7 +14,7 @@ default_args = {
     'retry_delay'           : timedelta(minutes=5)
 }
 
-with DAG('docker_dag', default_args=default_args, schedule_interval=None, catchup=False) as dag:
+with DAG('etl3', default_args=default_args, schedule_interval=None, catchup=False) as dag:
     t1 = BashOperator(
         task_id='print_current_date',
         bash_command='date'
@@ -26,8 +26,9 @@ with DAG('docker_dag', default_args=default_args, schedule_interval=None, catchu
         api_version='auto',
         auto_remove=True,
         command="python extract.py 1 10",
-        docker_url="tcp://172.31.17.235:2375",
-        network_mode="bridge"
+        docker_url="tcp://172.31.29.142:2375",
+        network_mode="bridge",
+        environment={"MODE":"API"}
     )
 
     t3 = BashOperator(

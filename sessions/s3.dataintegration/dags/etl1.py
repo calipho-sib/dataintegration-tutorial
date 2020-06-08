@@ -27,9 +27,10 @@ with DAG('etl1', default_args=default_args, schedule_interval=None, catchup=Fals
         api_version='auto',
         auto_remove=True,
         command="python extract.py 1 20",
-        docker_url="tcp://172.31.17.235:2375",
+        docker_url="tcp://172.31.29.142:2375",
         network_mode="bridge",
-        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
+        environment={"MODE": "FILE"},
+        volumes=['/work/sibdays/dataintegration-tutorial/sessions/s3.dataintegration/data:/data']
     )
 
     t3 = DockerOperator(
@@ -37,10 +38,11 @@ with DAG('etl1', default_args=default_args, schedule_interval=None, catchup=Fals
         image='sibdays.node',
         api_version='auto',
         auto_remove=True,
-        command="node transform-load.js 1 20",
-        docker_url="tcp://172.31.17.235:2375",
+        command="node transform-load.js /data/ensembl1-20.json",
+        docker_url="tcp://172.31.29.142:2375",
         network_mode="bridge",
-        volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/data:/data']
+        environment={"MODE": "FILE"},
+        volumes=['/work/sibdays/dataintegration-tutorial/sessions/s3.dataintegration/data:/data']
     )
 
     t4 = BashOperator(

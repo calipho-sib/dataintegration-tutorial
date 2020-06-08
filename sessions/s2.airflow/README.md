@@ -123,7 +123,6 @@ volumes:
 ```
 
 You should create a writable *log* folder in the *s2.airflow* folder, and the above directive will mount this folder to the airflow container's log folder. 
-
 ### DAG1
 
 DAG 1 is a simple example with three tasks with bash operator. These tasks runs in t1, t2 and t3 order.

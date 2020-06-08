@@ -27,7 +27,7 @@ with DAG('docker_dag', default_args=default_args, schedule_interval=None, catchu
         api_version='auto',
         auto_remove=True,
         command="python simple.py",
-        docker_url="tcp://172.31.17.235:2375",
+        docker_url="tcp://172.31.29.142:2375",
         network_mode="bridge",
         volumes=['/work/dataintegration-tutorial/sessions/s2.airflow/logs:/log']
     )
