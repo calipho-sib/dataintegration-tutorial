@@ -91,7 +91,7 @@ Once the docker image for airflow is built, we use the docker compose file *airf
 
 
 ```
-docker-compose up -f docker-compose-ariflow.yml up --build
+docker-compose up -f airflow-docker-compose.yml up --build
 ```
 
 You can start it with -d switch, so that it will start in the background. Otherwise you will see the logs from the compose startup, where you can see the status. If no error, you can check the airflow setup as;
